@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "build": "vue-cli-service build && echo Y | npx msw init dist/",
     "test:unit": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint"
   },
@@ -37,6 +37,6 @@
     "vue-template-compiler": "^2.6.11"
   },
   "msw": {
-    "workerDirectory": "public"
+    "workerDirectory": "dist"
   }
 }
