@@ -5,7 +5,7 @@
     <div class="show-card-number">
       <div class="show-card-number-button" @click="toggleShowCard">
         <img src="../assets/ShowNumber.svg" alt="ShowNumber" />
-        {{ showCardNumberLabel }}
+        <div class="show-card-number-label">{{ showCardNumberLabel }}</div>
       </div>
     </div>
     <div class="card">
@@ -48,7 +48,7 @@ export default {
   },
   computed: {
     showCardNumberLabel() {
-      return this.showCardNumber ? 'Hide card no' : 'Show card number';
+      return this.showCardNumber ? 'Hide card number' : 'Show card number';
     },
     number() {
       const nums = [];
@@ -76,7 +76,7 @@ export default {
   },
   methods: {
     toggleShowCard() {
-      if (!this.card.isCardFreeze || !this.card.isCancelled) {
+      if (!this.card.isCardFreeze && !this.card.isCancelled) {
         this.showCardNumber = !this.showCardNumber;
       }
     },
@@ -103,6 +103,9 @@ export default {
       line-height: 20px;
       img {
         margin-right: 5px;
+      }
+      .show-card-number-label {
+        width: 110px;
       }
     }
   }

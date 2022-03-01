@@ -61,7 +61,6 @@ export default {
     }
     .body-container {
       border: 1px solid #F0F0F0;
-      padding: 0px 20px;
       border-radius: 0px 0px 15px 15px;
     }
   }

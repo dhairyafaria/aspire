@@ -66,21 +66,7 @@
       </Accordion>
     </div>
     <div class="cards-transactions">
-      <Accordion>
-        <template #header>
-          <div class="header-items">
-            <img src="../assets/RecentTransactions.svg" alt="RecentTransaction"/>
-            <div>Recent transactions</div>
-          </div>
-        </template>
-        <template #body>
-          <div>100</div>
-          <div>100</div>
-          <div>100</div>
-          <div>100</div>
-          <div>100</div>
-        </template>
-      </Accordion>
+      <CardsTransaction :recent-transactions="recentTransactions"/>
     </div>
     <ConfirmModal :show-modal="showModal"
       @closeModal="CloseModal"
@@ -96,11 +82,13 @@
 import { mapGetters, mapActions, mapMutations } from 'vuex';
 import { Carousel, Slide } from 'vue-carousel';
 import { faker } from '@faker-js/faker';
+import axios from 'axios';
 import Card from '@/components/Card.vue';
 import CardActions from '@/components/CardActions.vue';
 import ConfirmModal from '@/components/ConfirmModal.vue';
 import AddNewCard from '@/components/AddNewCard.vue';
 import Accordion from '@/components/Accordion.vue';
+import CardsTransaction from '@/components/CardsTransaction.vue';
 
 export default {
   name: 'Cards',
@@ -112,6 +100,17 @@ export default {
     ConfirmModal,
     AddNewCard,
     Accordion,
+    CardsTransaction,
+  },
+  data() {
+    return {
+      cardTabSelected: 'MyDebitCards',
+      perPage: 1,
+      currentCardSlide: 0,
+      showModal: false,
+      showAddNewCardModal: false,
+      recentTransactions: [],
+    };
   },
   computed: {
     ...mapGetters({
@@ -132,6 +131,7 @@ export default {
     },
     SetCurrentCardSlideNo(no) {
       this.currentCardSlide = no;
+      this.FetchRecerntTransactions();
     },
     ToggleFreezeCard(isFreezeCard) {
       const payload = {
@@ -175,18 +175,18 @@ export default {
       this.AddCard(payload);
       this.showAddNewCardModal = false;
     },
+    async FetchRecerntTransactions() {
+      try {
+        const response = await axios.get(`/cards/${this.cards[this.currentCardSlide]}/recent-transactions`);
+        this.recentTransactions = response.data;
+      } catch (error) {
+        console.error('Error while fectching recent transaction', error);
+      }
+    },
   },
   created() {
     this.FetchAllCards();
-  },
-  data() {
-    return {
-      cardTabSelected: 'MyDebitCards',
-      perPage: 1,
-      currentCardSlide: 0,
-      showModal: false,
-      showAddNewCardModal: false,
-    };
+    this.FetchRecerntTransactions();
   },
 };
 </script>
@@ -316,13 +316,6 @@ export default {
       background-color: #FFFFFF;
       padding: 0px 25px 25px;
       margin-bottom: 65px;
-      .header-items {
-        display: flex;
-        align-items: center;
-        img {
-          margin-right: 12px;
-        }
-      }
     }
   }
 </style>

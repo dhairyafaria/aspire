@@ -77,6 +77,7 @@ export default {
         font-size: 13px;
         line-height: 16px;
         color: #0C365A;
+        width: 66px;
       }
       &.card-cancelled {
         .card-action-icon {
